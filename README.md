@@ -135,12 +135,27 @@ void loop()
 }`
 ```
 ¿Cómo se ejecuta este programa?
+
 Se define una tarea en esta caso TASK1
 Luego se definen los estados de este TASK1, El primero de estos es TaskState1 el cual lleva dos variables INIT y WAIT_TIMEOUTm Finalmente el TaskState1 se termina de definir como:  **static** Task1States task1State = Task1States::INIT; 
 Esto significa que se genere un Task1States cuyo nombre es task1State y su valor sea estatico significando que no cambiara segun los estados que se apliquen
 
 Pudiste ver este mensaje: `Serial.print("Task1States::WAIT_TIMEOUT\n");`. ¿Por qué crees que ocurre esto?
-
+Este mensaje ocurre por que al final del task de "iniciar la carrera" como parte de las acciones del task te esta avisando que en efecto ahora el task1state va a ser el de WAIT_TIMEOUT por lo cual significa que ya comenzo a correr.
 
 ¿Cuántas veces se ejecuta el código en el case Task1States::INIT?
+Se ejecuta una sola vez pues el task state :: init funciona como una especie de pistola de carreras, que al dispararse una vez pasa la maquina de esados al estado de waittimeout el cual basicmanete le esta diciendo: Todo listo?! 3,2,1, a correr!!! y pum. Salto al Timeout el cual comienza el reloj.
 
+
+#### Ejercicio 7
+
+En este ejercicio hacemos un analisis a profundidad del programa como tal. En base a esto mi hipotesis era correcta, el programa en cuestion no contaba con dos estados, si no que cuenta con un estado y un seudo estado. El estado como tal es el de WAITTIMEOUT el cual basicamente inicia a contar segun los milisegundos que vayan transcurriendo y el INIT es el que setea las condiciones iniciales, pero realmente es un pseudo estado ya que solo sirve de punto de partida.
+Adicionalmente tambien podemos ver como nos explican las acciones que realiza el programa, esto funciona de la siguiente manera. En el segundo que se cumple el estado objetivo llamese como se llame, se ejecutara un bloque de codigo el cual nos dira ciertas instrucciones las cuales se ejecutaran siempre y cuando la condicion se este cumpliendo. Ya finalmente se analiza un evento dentro del estado de task WAITTIMEOUT el cual nos esta diciendo que se llamaran los milisegundos para que estos sean asignados a un valor fijo, luego de esto se ahce una operacion logica la cual, si se cumple entonces imprimira en el monitor serial de manera continua numeros en incrementos de milisegundos, de lo contrario batara un error.
+
+#### Ejercicio 8
+
+*Realiza un programa que envíe un mensaje al pasar un segundo, dos segundos y tres segundos. Luego de esto debe volver a comenzar.*
+
+- ¿Cuáles son los estados del programa?
+- ¿Cuáles son los eventos?
+- ¿Cuáles son las acciones?
