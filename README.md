@@ -157,5 +157,119 @@ Adicionalmente tambien podemos ver como nos explican las acciones que realiza el
 *Realiza un programa que envíe un mensaje al pasar un segundo, dos segundos y tres segundos. Luego de esto debe volver a comenzar.*
 
 - ¿Cuáles son los estados del programa?
+El programa tiene 3 tareas la cual independientemente poseen 1 pseudo estado y 1 estado cada una
+  
 - ¿Cuáles son los eventos?
+Los eventos como tal que tiene cada tarea y cada estado de WAITTIMEOUT son de tomar los valores de las variables y comparar el reloj inicial con el reloj de cada tarea para poder imprimir cada momento. En lo que varia cada tarea es en el intervalo de espera para imprimir.
+  
 - ¿Cuáles son las acciones?
+Las acciones son los respectivos prints de cada tarea :).
+
+```
+void task1(){
+        enum class Task1State{
+                INIT,
+                WAIT_FOR_TIMEOUT
+        };
+
+        static Task1State t1s = Task1State::INIT;
+        static uint32_t lastTime;
+        static constexpr uint32_t INTERVAL = 1000;
+
+        switch(t1s){
+                case Task1State::INIT:{
+                        Serial.begin(115200);
+                        lastTime = millis();
+                        t1s = Task1State::WAIT_FOR_TIMEOUT;
+                        break;
+                }
+                case Task1State::WAIT_FOR_TIMEOUT:{
+                        uint32_t currentTime = millis();
+                        if ((currentTime - lastTime) >= INTERVAL){
+                                lastTime = currentTime;
+                                Serial.print("1");
+                        }
+                        break;
+                        }
+                default:{
+                        break;
+                        }
+                }
+}
+
+void task2(){
+        enum class Task2State{
+                INIT,
+                WAIT_FOR_TIMEOUT
+        };
+
+        static Task2State t2s = Task2State::INIT;
+        static uint32_t lastTime;
+        static constexpr uint32_t INTERVAL = 2000;
+
+        switch(t2s){
+                case Task2State::INIT:{
+                        Serial.begin(115200);
+                        lastTime = millis();
+                        t2s = Task2State::WAIT_FOR_TIMEOUT;
+                        break;
+                }
+                case Task2State::WAIT_FOR_TIMEOUT:{
+                        uint32_t currentTime = millis();
+                        if ((currentTime - lastTime) >= INTERVAL){
+                                lastTime = currentTime;
+                                Serial.print("2");
+                                Serial.print("\n");
+                        }
+                        break;
+                        }
+                default:{
+                        break;
+                        }
+                }
+}
+
+void task3(){
+        enum class Task3State{
+                INIT,
+                WAIT_FOR_TIMEOUT
+        };
+
+        static Task3State t3s = Task3State::INIT;
+        static uint32_t lastTime;
+        static constexpr uint32_t INTERVAL = 3000;
+
+        switch(t3s){
+                case Task3State::INIT:{
+                        Serial.begin(115200);
+                        lastTime = millis();
+                        t3s = Task3State::WAIT_FOR_TIMEOUT;
+                        break;
+                }
+                case Task3State::WAIT_FOR_TIMEOUT:{
+                        uint32_t currentTime = millis();
+                        if ((currentTime - lastTime) >= INTERVAL){
+                                lastTime = currentTime;
+                                Serial.print("2 + 1");
+                                Serial.print("\n");
+                        }
+                        break;
+                        }
+                default:{
+                        break;
+                        }
+                }
+}
+
+void setup(){
+  task1();
+  task2();
+  task3();
+}
+
+void loop(){
+  task1();
+  task2();
+  task3();
+}
+```
