@@ -273,3 +273,9 @@ void loop(){
   task3();
 }
 ```
+
+#### Ejercicio 9
+
+Quedo mezclado con el ejercicio 8 :)
+
+#### Ejercicio 10
