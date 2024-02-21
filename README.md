@@ -279,3 +279,115 @@ void loop(){
 Quedo mezclado con el ejercicio 8 :)
 
 #### Ejercicio 10
+
+Al intentar descargar script comunicator en mi maquina virtual de linux Ubuntu descargaba los archivos pero al ejecutar el sh me decia el siguiente error.
+```
+lib64Qt6Qml-6.7.0-0.beta2.1-omv2490.aarch64.rpm not found
+```
+
+A lo cual procedi a buscar la debida biblioteca y dejarla instalada en mi maquina, luego de un reinicio y una redescarga del programa script communicator ya logre descargarlo y hacerlo funcionar. Por ende estamos listo para continuar el trayecto de actividades y seguir adelante con el proceso de micros.
+
+#### Ejercicio 11
+
+Programa en cuestion:
+
+```
+void task1()
+{
+    enum class Task1States    {
+        INIT,
+        WAIT_DATA
+    };
+    static Task1States task1State = Task1States::INIT;
+
+    switch (task1State)
+    {
+    case Task1States::INIT:
+    {
+        Serial.begin(115200);
+        task1State = Task1States::WAIT_DATA;
+        break;
+    }
+
+    case Task1States::WAIT_DATA:
+    {
+        // evento 1:        // Ha llegado al menos un dato por el puerto serial?
+        if (Serial.available() > 0)
+        {
+            Serial.read();
+            Serial.print("Hola computador\n");
+        }
+        break;
+    }
+
+    default:
+    {
+        break;
+    }
+    }
+}
+
+void setup()
+{
+    task1();
+}
+
+void loop()
+{
+    task1();
+}
+```
+
+
+
+Analiza el programa. ¿Por qué enviaste la letra con el botón send? ¿Qué evento verifica si ha llegado algo por el puerto serial?
+
+Envie la letra con el boton send para decirle a la board que le he enviado algo desde el pc. El evento que verifica la llegada de algo es el siguiente:
+
+```
+    case Task1States::WAIT_DATA:
+    {
+        // evento 1:        // Ha llegado al menos un dato por el puerto serial?
+        if (Serial.available() > 0)
+        {
+            Serial.read();
+            Serial.print("Hola computador\n");
+        }
+        break;
+    }
+```
+
+Aca el evento se llama WAIT_DATA y la accion que realiza para verificar es que cada vez que se repite el ciclo el va a estar preguntandole al serial.available *[Los Bytes presentes en el buffer que esperan a ser enviados]*  que si llego algo diferente de 0 *[Si llega 0 es por que esta nulo o sea no hay nada]*, en caso de que si haya llegado algo diferente a 0 el va a leer lo que sea que haya llegado con serial.read y luego va a imprimir el mensaje de *Hola Computador*
+
+Analiza los números que se ven debajo de las letras. Nota que luego de la r, abajo, hay un número. ¿Qué es ese número?
+
+72
+
+¿Qué relación encuentras entre las letras y los números?
+
+La relacion que tiene cada numero y cada letra es que cada letra tiene debajo su correspondiente codigo ASCII, tambien conocido como *American Standard Code for Information Interchange*
+
+¿Qué es el 0a al final del mensaje y para qué crees que sirva?
+
+El 0a del final es una referencia a el final de una oracion o linea como tal. En este caso como el print indicaba que se escribiera "Hola Computador\n". El \n funciona como un indicador para decirle al codigo que escriba el string y que asigne un final de linea o lo que es lo mismo en ASCII un 0a. En otras palabras:
+
+```
+"\n" = 0a
+```
+Nota que luego de verificar si hay datos en el puerto serial se DEBE HACER UNA LECTURA del puerto. Esto se hace para retirar del puerto el dato que llegó. Si esto no se hace entonces parecerá que siempre tiene un datos disponible en el serial para leer. ¿Tiene sentido esto? Si no es así habla con el profe.
+
+Si, esto tiene sentido puesto que el parametro de evaluacion me identifica la cantidad de bytes en el buffer, si esa cantidad de bytes en el buffer se mantiene igual entonces el programa imprimira hola computador infinitamente, asi mismo al realizar el comando read estamos tomando lo que se coloco en el buffer y lo estamos leyendo para volver a resetearlo a 0.
+
+#### Ejercicio 12
+
+¿Cómo se declara un puntero?
+
+¿Cómo se define un puntero? (cómo se inicializa)
+
+¿Cómo se obtiene la dirección de una variable?
+
+¿Cómo se puede leer el contenido de una variable por medio de un puntero?
+
+¿Cómo se puede escribir el contenido de una variable por medio de un puntero?
+
+
