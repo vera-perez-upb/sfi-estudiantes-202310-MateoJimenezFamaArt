@@ -382,12 +382,45 @@ Si, esto tiene sentido puesto que el parametro de evaluacion me identifica la ca
 
 ¿Cómo se declara un puntero?
 
+la sintaxis de un puntero es la siguiente ***Tipo de dato + * + p(nombreVar) = & + var + ;***
+
+Asi declaramos el puntero como tal
+
 ¿Cómo se define un puntero? (cómo se inicializa)
+
+Para inicializar el puntero simplemente tomamos otra variable a la cual queremos asignar nuestro puntero como tal y realizamos lo siguiente:
+
+**Tipo de dato + nombre = * + p(nombreVar) + ;**
+
+Aca estamos inicializando el puntero a nombre de la variable que se le este asignando
 
 ¿Cómo se obtiene la dirección de una variable?
 
+Al utilizar el simbolo & se obtiene la direccion de la variable para esta ser definida en el puntero
+
 ¿Cómo se puede leer el contenido de una variable por medio de un puntero?
 
+Para leer el contenido de una variable mediante un puntero lo que se hace es que (asumiendo que ya la variable tiene su valor y su puntero asignado) es que a la hora de emplear la variable como tal en algun tipo de funcion o operacion en vez de utilizar la variable como tal, se utiliza el puntero. Esto con el fin de no leer la variable como tal si no la direccion en la que se encuentra esa variable
+
 ¿Cómo se puede escribir el contenido de una variable por medio de un puntero?
+
+Para escribir el contenido de una varibale meidante el puntero se utiliza el puntero como la direccion a donde se va a escribir y se envia la respectiva modificacion al puntero y luego este cambiara el valor de la variable a la que fue asignada puesto que el puntero estaria cambiando lo que sea que haya en esa direccion como tal
+
+#### Ejercicio 13
+
+El breve analisis sobre el codigo es el siguiente:
+
+Se definen dos metodos uno para imprimir un valor de una variable fija y un metodo para alterar el valor de un puntero.
+
+Luego se inicia una maquina de estados, de manera estandar se define un BEGIN con parametros iniciales y se pasa al siguiente esatdo
+
+Luego se pasa al siguiente estado que es WAIT_DATA el cual espera a que llegue algo al puerto serial, cuando llegue algo el programa va a:
+Definir un int llamado var con valor 0
+Definir un int de tipo puntero y asignarlo a nuestra variable var con valor 0
+luego llama al metodo de printVar el cual imprime el valor del puntero que esta apuntando a la variable ergo 0
+luego llama al metodo de changeVar el cual asigna el valor 10 a nuestro puntero cambiando el valor de var a 10
+finalmente llama a printVar nuevamente el cual ahora ya tiene un valor de 10 asignado mediante el puntero
+
+
 
 
