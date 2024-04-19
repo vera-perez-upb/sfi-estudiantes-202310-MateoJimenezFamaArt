@@ -22,7 +22,7 @@ Cmd -> Representa el comando que se debe ejecutar por el lector
 
 Data[] -> Contiene las variables que se requieren para ejecutar el comando en cuestion
 
-LSB-CRC16 -> Hace los respectivos chequeos para verificar si hay algun error en la comunicacion, esto lo hace realizando un CRC {cyclic redundancy check} en todo el mensaje. Este check esta dividido en el LSB y el MSB que son Least Significant Byte y Most Significant Byte respectivamente. 
+LSB-CRC16 (CheckSum) -> Hace los respectivos chequeos para verificar si hay algun error en la comunicacion, esto lo hace realizando un CRC {cyclic redundancy check} en todo el mensaje. Este check esta dividido en el LSB y el MSB que son Least Significant Byte y Most Significant Byte respectivamente. 
 
 - **¿Para qué sirve cada parte del mensaje?**
 
@@ -34,18 +34,17 @@ Cmd -> Sirve para definir la accion en cuestion que el lector debera de realizar
 
 Data[] -> Sirve para contener la informacion necesaria por el lector para ejecutar las acciones en cuestion que requieran ciertos valores 
 
-LSB-CRC16 -> Sirve para determinar la integridad de los datos enviados y nos muestra si el mensaje esta siendo recibido correctamente
-
-## Ejercicio 2
-
-Principal objetivo de esta actividad es identificar la naturaleza sobre la comunicacion binaria y entender que funciones de comunicacion serial se emplean y la excepcion de el caracter de fin de mensaje "\n".
+LSB-CRC16 (CheckSum) -> Principal objetivo de esta actividad es identificar la naturaleza sobre la comunicacion binaria y entender que funciones de comunicacion serial se emplean y la excepcion de el caracter de fin de mensaje "\n".
 
 Se sabe que empleamos las siguientes funciones para comunicarse y establecer usabilidades seriales:
 
-- Serial.available()
-- Serial.read()
-- Serial.readBytes(buffer, length)
-- Serial.write()
+- Serial.available() -> Get the number of bytes (characters) available for reading from the serial port. This is data that’s already arrived and stored in the serial receive buffer (which holds 64 bytes).
+  
+- Serial.read() -> Reads incoming serial data.
+  
+- Serial.readBytes(buffer, length) -> `Serial.readBytes()` reads characters from the serial port into a buffer. The function terminates if the determined length has been read. Serial.readBytes() returns the number of characters placed in the buffer. A 0 means no valid data was found.
+  
+- Serial.write() -> Writes binary data to the serial port. This data is sent as a byte or series of bytes; to send the characters representing the digits of a number use the print() function instead.
 
   Todas estas funciones permiten comunicacion serial al leer, mirar disponibles, leer los bytes en el buffer con tanta longitud y escribir de manera serial algo, es importante notar que la funcion Serial.readBytesUntil() ya no nos conviene puesto que esta es mejor utilizarla en un protocolo de comunciacion ASCII ya que es mas apto para manejar \n, para comunicacion binaria es mejor emplear otras funciones de lectura y escritura como las que se mostraron mas arriba.
 
