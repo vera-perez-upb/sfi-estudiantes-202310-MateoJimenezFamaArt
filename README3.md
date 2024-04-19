@@ -60,3 +60,82 @@ Se sabe que empleamos las siguientes funciones para comunicarse y establecer usa
    Esto es importante identificarlo a la hora de diseñar un programa puesto que nos implica que desde un principio se debe tener claro que posibilidad se eligira para protocolos binarios
 
   ## Ejercicio 4
+
+  El principal objetivo de esta actividad es identificar varios elementos de un protocolo de comunicacion binario?
+
+  Se tienen estos dos codigos
+
+Guardando el valor a ser leido solamente en una variable flotante
+```
+  void setup() {
+    Serial.begin(115200);
+}
+
+void loop() {
+    // 45 60 55 d5
+    // https://www.h-schmidt.net/FloatConverter/IEEE754.html
+    static 
+    float num = 3589.3645;
+    if(Serial.available()){
+        if(Serial.read() == 's'){
+            Serial.write ( (uint8_t *) &num,4);
+        }
+    }
+}
+```
+
+Guardando el valor a ser leido en un array de 4 espacios
+
+```
+void setup() {
+    Serial.begin(115200);
+}
+
+void loop() {
+// 45 60 55 d5
+// https://www.h-schmidt.net/FloatConverter/IEEE754.htmlstatic
+float num = 3589.3645;
+static uint8_t arr[4] = {0};
+
+if(Serial.available()){
+if(Serial.read() == 's'){
+            memcpy(arr,(uint8_t *)&num,4);
+            Serial.write(arr,4);
+        }
+    }
+}
+```
+
+  - ¿En qué *endian* estamos transmitiendo el número?
+
+  En ambos casos estamos transmitiendo el little endian puesto que en la secuencia del mensaje se esta enviando : (45,60,55,d5) y la forma en que se esta escribiendo este mensaje es en d5, 55, 60,45 aca se evidencia que el little endian o sea el ultimo byte del mensaje es el que se esta leyendo primero, por ende estamos en ambos codigos utilziando comunicacion con el little endian.
+    
+- Y si queremos transmitir en el *endian* contrario, ¿Cómo se modifica el código?
+
+  Para transmitir el big endian tendriamos que albergar todo en un array para poder recorrer cada parte del mensaje y luego implementar un ciclo for que vaya recorriendo el array en el orden deseado para que se muestre desde el big endian o el primer byte hasta el ultimo
+
+```
+  void setup() {
+    Serial.begin(115200);
+}
+
+void loop() {
+// 45 60 55 d5
+// https://www.h-schmidt.net/FloatConverter/IEEE754.htmlstatic
+float num = 3589.3645;
+static uint8_t arr[4] = {0};
+
+if(Serial.available()){
+if(Serial.read() == 's'){
+            memcpy(arr,(uint8_t *)&num,4);
+for(int8_t i = 3; i >= 0; i--){
+              Serial.write(arr[i]);
+            }
+        }
+    }
+}
+```
+
+Finalmente aca se ve como al implementar el float en un array y lueog interpretarlo inversamente desde un ciclo for podemos interpretar desde codigo el lenguaje como si fuera una comunicacion con big endian.
+
+  
