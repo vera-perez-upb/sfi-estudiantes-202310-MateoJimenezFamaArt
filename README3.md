@@ -35,3 +35,29 @@ Cmd -> Sirve para definir la accion en cuestion que el lector debera de realizar
 Data[] -> Sirve para contener la informacion necesaria por el lector para ejecutar las acciones en cuestion que requieran ciertos valores 
 
 LSB-CRC16 -> Sirve para determinar la integridad de los datos enviados y nos muestra si el mensaje esta siendo recibido correctamente
+
+## Ejercicio 2
+
+Principal objetivo de esta actividad es identificar la naturaleza sobre la comunicacion binaria y entender que funciones de comunicacion serial se emplean y la excepcion de el caracter de fin de mensaje "\n".
+
+Se sabe que empleamos las siguientes funciones para comunicarse y establecer usabilidades seriales:
+
+- Serial.available()
+- Serial.read()
+- Serial.readBytes(buffer, length)
+- Serial.write()
+
+  Todas estas funciones permiten comunicacion serial al leer, mirar disponibles, leer los bytes en el buffer con tanta longitud y escribir de manera serial algo, es importante notar que la funcion Serial.readBytesUntil() ya no nos conviene puesto que esta es mejor utilizarla en un protocolo de comunciacion ASCII ya que es mas apto para manejar \n, para comunicacion binaria es mejor emplear otras funciones de lectura y escritura como las que se mostraron mas arriba.
+
+  ## Ejercicio 3
+
+  El principal objetivo de esta actividad es identificar que es el endian?
+
+  En la comunicacion binaria se tiene que en casos se deben enviar variables cuyos datos son mayores a un byte, esto conlleva a que al diseñar debemos tener en cuenta el orden en que los bytes iran entrando a nuestro buffer (Por ejemplo cuando usamos un punto flotante este se representa en 4 bytes).  Asi pues a la hora de escribir se debe trbajar un una de dos opciones de lecturas:
+
+   -  Transmitir primero el byte de menor peso (little endian)
+   -  Transmitir primero el byte de mayor peso (big endian)
+
+   Esto es importante identificarlo a la hora de diseñar un programa puesto que nos implica que desde un principio se debe tener claro que posibilidad se eligira para protocolos binarios
+
+  ## Ejercicio 4
